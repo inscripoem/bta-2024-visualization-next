@@ -126,10 +126,10 @@ export default function Home() {
           <div className="col-span-2">
             <SchoolBarChart data={schoolData} />
           </div>
-          <div className="h-[600]">
+          <div className="col-span-1 h-full">
             <Card className="h-full">
               <CardContent className="h-full">
-                <ScrollArea className="h-full my-5" onWheel={(e) => e.stopPropagation()}>
+                <ScrollArea className="h-[500px] my-5" onWheel={(e) => e.stopPropagation()}>
                   <table className="min-w-full border-collapse">
                     <thead>
                       <tr>
