@@ -1,101 +1,164 @@
+"use client"
+
 import Image from "next/image";
+import { ArrowRight, ArrowDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { NumberTicker } from "@/components/ui/number-ticker";
+import { useRef, useEffect } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card, CardContent } from "@/components/ui/card";
+
+import { EChartsMap } from "@/components/echarts-map";
+import {
+  Confetti,
+  type ConfettiRef,
+} from "@/components/ui/confetti";
+import { SchoolBarChart } from "@/components/school-bar-chart"
+
+import { schoolData } from "./data";
+
+// 模拟数据，实际使用时替换为真实数据
+const stats = [
+  { label: "参与学校", value: 37 },
+  { label: "总问卷数", value: 1234 },
+  { label: "总浏览量", value: 5678 },
+  { label: "总浏览用户", value: 3456 },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const confettiRef = useRef<ConfettiRef>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+  useEffect(() => {
+    confettiRef.current?.fire({});
+
+    // 添加平滑滚动处理
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const currentScroll = window.scrollY;
+
+      if (e.deltaY > 0) {
+        // 向下滚动
+        if (currentScroll < window.innerHeight) {
+          window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+        } else if (currentScroll < window.innerHeight * 2) {
+          window.scrollTo({ top: window.innerHeight * 2, behavior: 'smooth' });
+        }
+      } else {
+        // 向上滚动
+        if (currentScroll > window.innerHeight) {
+          window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+        } else if (currentScroll > 0) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+    };
+
+    // 在整个页面添加事件监听
+    window.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
+  return (
+    <div className="flex flex-col">
+      {/* 第一屏 */}
+      <div className="min-h-screen relative flex flex-col">
+        <div className="flex-1 p-8 flex flex-col items-center justify-center gap-16">
+          <main className="flex items-center gap-16">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/logo.png"
+              alt="大二杯 Logo"
+              width={100}
+              height={100}
+              className="object-contain"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+
+            <Confetti
+              ref={confettiRef}
+              className="absolute left-0 top-0 z-0 size-full z-[-1]"
+            />
+            
+            <div className="flex flex-col">
+              <h1 className="text-4xl font-bold mb-2">
+                2024 <span className="text-primary font-noto-serif font-black">大二杯</span>
+              </h1>
+              <h2 className="text-3xl font-bold">
+                现已结束！
+              </h2>
+            </div>
+            
+            <Button asChild size="lg">
+              <a href="/data" className="flex items-center gap-2">
+                查看奖项数据
+                <ArrowRight className="h-5 w-5" />
+              </a>
+            </Button>
+          </main>
+
+          <div className="grid grid-cols-4 gap-8">
+            {stats.map((stat) => (
+              <div key={stat.label} className="bg-card rounded-xl border px-10 py-6 flex flex-col items-left">
+                <div className="text-sm font-bold text-primary mb-2">{stat.label}</div>
+                <NumberTicker
+                  value={stat.value}
+                  delay={0}
+                  className="text-3xl font-bold"
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* 下一屏指示器 */}
+        <div className="absolute bottom-8 inset-x-0 mx-auto flex flex-col items-center gap-2 animate-bounce w-fit">
+          <span className="text-sm text-muted-foreground">
+            滚动查看各校参与人数
+          </span>
+          <ArrowDown className="h-6 w-6 text-muted-foreground" />
+        </div>
+      </div>
+
+      {/* 第二屏 */}
+      <div className="min-h-screen p-8">
+        <h2 className="text-3xl font-bold mb-8 pt-2 pl-2">各学校参与人数</h2>
+        <div className="grid grid-cols-3 gap-8">
+          <div className="col-span-2">
+            <SchoolBarChart data={schoolData} />
+          </div>
+          <div className="h-[600]">
+            <Card className="h-full">
+              <CardContent className="h-full">
+                <ScrollArea className="h-full my-5" onWheel={(e) => e.stopPropagation()}>
+                  <table className="min-w-full border-collapse">
+                    <thead>
+                      <tr>
+                        <th className="p-2 text-left">学校</th>
+                        <th className="p-2 text-left">参与人数</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {schoolData.sort((a, b) => b.value - a.value).map((school) => (
+                        <tr key={school.name}>
+                          <td className="border-t border-gray-600 p-2">{school.name}</td>
+                          <td className="border-t border-gray-600 p-2">{school.value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </ScrollArea>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* 第三屏 */}
+{/*       <div className="min-h-screen p-8">
+        <h2 className="text-3xl font-bold mb-8 pt-2 pl-2">学校参与人数地图</h2>
+        <EChartsMap data={schoolData} />
+      </div> */}
     </div>
   );
 }
