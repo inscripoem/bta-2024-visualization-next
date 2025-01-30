@@ -3,24 +3,17 @@
 import {
   Bar,
   BarChart,
-  CartesianGrid,
   XAxis,
   YAxis,
-  Tooltip,
 } from "recharts"
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart"
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
   } from "@/components/ui/card"
 
 

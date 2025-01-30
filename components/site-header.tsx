@@ -57,7 +57,7 @@ export function SiteHeader() {
             className=""
           />
           <Link href="/" className="font-bold text-xl">
-            2024"大二杯"结果发布
+            2024 &quot;大二杯&quot; 结果发布
           </Link>
         </div>
 
