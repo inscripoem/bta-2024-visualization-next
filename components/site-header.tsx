@@ -24,12 +24,12 @@ import {
 // 修改导航菜单数据结构
 const menuItems = [
   {
-    title: "总览",
-    href: "/overview"
+    title: "参与学校",
+    href: "/data/schools"
   },
   {
     title: "奖项数据",
-    href: "/docs"
+    href: "/data/awards"
   },
   {
     title: "实用工具",
@@ -49,13 +49,15 @@ export function SiteHeader() {
       <div className="flex h-14 items-center px-4 md:px-8">
         {/* 左侧 Logo 和标题 */}
         <div className="flex items-center gap-2">
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width={32}
-            height={32}
-            className=""
-          />
+          <Link href="/">
+            <Image
+              src="/logo.webp"
+              alt="Logo"
+              width={32}
+              height={32}
+              className=""
+            />
+          </Link>
           <Link href="/" className="font-bold text-xl">
             2024 &quot;大二杯&quot; 结果发布
           </Link>
