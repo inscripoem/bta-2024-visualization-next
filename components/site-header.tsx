@@ -21,25 +21,31 @@ import {
     SheetTitle,
 } from "@/components/ui/sheet"
 
+interface MenuItem {
+  title: string
+  href?: string
+  items?: SubMenuItem[]
+}
+
+interface SubMenuItem {
+  title: string
+  href: string
+  description?: string
+}
+
 // 修改导航菜单数据结构
-const menuItems = [
+const menuItems: MenuItem[] = [
+  {
+    title: "首页",
+    href: "/"
+  },
   {
     title: "参与学校",
-    href: "/data/schools"
+    href: "/stats/schools"
   },
   {
     title: "奖项数据",
-    href: "/data/awards"
-  },
-  {
-    title: "实用工具",
-    items: [
-      {
-        title: "Excel 计票工具",
-        href: "/docs/primitives/alert-dialog",
-        description: "为学校管理员提供面向 Excel 文件的计票",
-      },
-    ]
+    href: "/stats/awards"
   }
 ]
 

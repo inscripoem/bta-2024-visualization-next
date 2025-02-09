@@ -1,13 +1,15 @@
-import { SiteHeader } from "@/components/site-header";
+"use client"
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function StatsPage() {
-  return (
-    <div>
-      <SiteHeader />
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold">数据</h1>
-      </div>
-    </div>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/stats/schools");
+  }, [router]);
+
+  return null;
 }
 

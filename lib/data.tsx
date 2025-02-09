@@ -8,13 +8,37 @@ interface SchoolData {
   vote_count: number;
 }
 
-interface VoteData {
-  schools: SchoolData[];
+interface SchoolAvg {
+  school_name: string;
+  avg: number;
+  nonzero_avg: number;
 }
 
-// 固定的统计数据
-const TOTAL_VIEWS = 5504;
-const UNIQUE_VISITORS = 4103;
+interface TotalAvg {
+  avg: number;
+  nonzero_avg: number;
+}
+
+export interface Work {
+  title: string;
+  total_avg: TotalAvg;
+  total_school_avg: TotalAvg;
+  school_avg: SchoolAvg[];
+}
+
+interface Award {
+  name: string;
+  works: Work[];
+}
+
+interface VoteData {
+  stats: {
+    total_school_count: number;
+    total_vote_count: number;
+  };
+  schools: SchoolData[];
+  awards: Award[];
+}
 
 // 缓存相关的常量
 const CACHE_KEY = 'vote_data_cache';
@@ -28,7 +52,7 @@ const DEV_OPTIONS = {
 
 export function useVoteData() {
   const [schoolData, setSchoolData] = useState<SchoolData[]>([]);
-  const [stats, setStats] = useState<Array<{ label: string; value: number }>>([]);
+  const [awards, setAwards] = useState<Award[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -78,16 +102,7 @@ export function useVoteData() {
         const cachedData = getCachedData();
         if (cachedData) {
           setSchoolData(cachedData.schools);
-          setStats([
-            { label: "参与学校", value: cachedData.schools.length },
-            { 
-              label: "总问卷数", 
-              value: cachedData.schools.reduce((sum: number, school: SchoolData) => sum + school.vote_count, 0) 
-            },
-            { label: "总浏览量", value: TOTAL_VIEWS },
-            { label: "总浏览用户", value: UNIQUE_VISITORS },
-          ]);
-          // 从缓存加载完成后立即设置loading为false
+          setAwards(cachedData.awards);
           setLoading(false);
           return;
         }
@@ -95,15 +110,7 @@ export function useVoteData() {
         // 从服务器获取数据
         const data = await fetchAndCacheData();
         setSchoolData(data.schools);
-        setStats([
-          { label: "参与学校", value: data.schools.length },
-          { 
-            label: "总问卷数", 
-            value: data.schools.reduce((sum: number, school: SchoolData) => sum + school.vote_count, 0) 
-          },
-          { label: "总浏览量", value: TOTAL_VIEWS },
-          { label: "总浏览用户", value: UNIQUE_VISITORS },
-        ]);
+        setAwards(data.awards);
         setLoading(false);
       } catch (err) {
         setError("Failed to load data: " + err);
@@ -114,5 +121,5 @@ export function useVoteData() {
     loadData();
   }, []);
 
-  return { schoolData, stats, error, loading };
+  return { schoolData, awards, error, loading };
 }
