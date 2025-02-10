@@ -52,7 +52,7 @@ export function WorkRankItem({ title, score, rank, listId }: WorkRankItemProps) 
 
           <div className="flex flex-col items-end">
             <motion.div 
-              className="text-4xl font-bold text-primary"
+              className="text-3xl font-bold text-primary italic"
               layoutId={`rank-${listId}-${title}`}
             >
               #{rank}
