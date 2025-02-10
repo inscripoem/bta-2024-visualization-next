@@ -28,10 +28,10 @@ export function WorkRankItem({ title, score, rank, listId }: WorkRankItemProps) 
         <div className="absolute inset-0 z-0">
           <div className="relative h-full">
             <Image
-              src={`/covers/${title}.webp`}
+              src={`/covers/${encodeURIComponent(title)}.webp`}
               alt={title}
               fill
-              className="object-cover object-left transition-transform duration-300 group-hover:scale-105 dark:brightness-[0.2]"
+              className="object-cover object-left transition-transform duration-300 group-hover:scale-105 brightness-[0.2]"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               quality={100}
             />

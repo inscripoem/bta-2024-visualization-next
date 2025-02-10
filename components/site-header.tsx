@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -46,16 +48,26 @@ const menuItems: MenuItem[] = [
   {
     title: "奖项数据",
     href: "/stats/awards"
+  },
+  {
+    title: "关于大二杯",
+    href: "/info/about"
+  },
+  {
+    title: "评选规则",
+    href: "/info/rules"
   }
 ]
 
 export function SiteHeader() {
+  const [open, setOpen] = React.useState(false)
+  
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-14 items-center px-4 md:px-8">
         {/* 左侧 Logo 和标题 */}
         <div className="flex items-center gap-2">
-          <Link href="/">
+          <Link href="/" onClick={() => setOpen(false)}>
             <Image
               src="/logo.webp"
               alt="Logo"
@@ -64,14 +76,14 @@ export function SiteHeader() {
               className=""
             />
           </Link>
-          <Link href="/" className="font-bold text-xl">
+          <Link href="/" onClick={() => setOpen(false)} className="font-bold text-xl">
             2024 &quot;大二杯&quot; 结果发布
           </Link>
         </div>
 
         {/* 移动端菜单按钮 */}
         <div className="flex flex-1 items-center justify-end md:hidden">
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="mr-2">
                 <Menu className="h-5 w-5" />
@@ -84,7 +96,7 @@ export function SiteHeader() {
                 {menuItems.map((item) => (
                   <div key={item.title}>
                     {item.href ? (
-                      <Link href={item.href} className="text-sm font-medium">
+                      <Link href={item.href} onClick={() => setOpen(false)} className="text-sm font-medium">
                         {item.title}
                       </Link>
                     ) : (
@@ -95,6 +107,7 @@ export function SiteHeader() {
                             <Link
                               key={subItem.title}
                               href={subItem.href}
+                              onClick={() => setOpen(false)}
                               className="text-sm text-muted-foreground hover:text-primary"
                             >
                               {subItem.title}

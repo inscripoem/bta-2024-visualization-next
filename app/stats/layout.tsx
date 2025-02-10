@@ -1,62 +1,44 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react";
 import { SiteHeader } from "@/components/site-header";
-import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
 import { VoteProvider, useVoteContext } from "./vote-context";
-
-const loadingStates = [
-  {
-    text: "正在计票",
-  },
-  {
-    text: "少女祈祷中",
-  },
-]
-
-const itemDuration = 1000;
-const loadingDuration = itemDuration * loadingStates.length;
+import { Loading } from "@/components/loading";
 
 function StatsLayoutContent({ children }: { children: React.ReactNode }) {
-  const { loading, error } = useVoteContext();
-  const [showLoader, setShowLoader] = useState(true);
-  const loadStartTimeRef = useRef<number | null>(null);
+  const { error, loading } = useVoteContext();
 
-  useEffect(() => {
-    if (loading) {
-      loadStartTimeRef.current = Date.now();
-      setShowLoader(true);
-    } else if (loadStartTimeRef.current) {
-      const loadTime = Date.now() - loadStartTimeRef.current;
-      const remainingTime = loadingDuration - (loadTime % loadingDuration);
-      
-      const timer = setTimeout(() => {
-        setShowLoader(false);
-        loadStartTimeRef.current = null;
-      }, remainingTime);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [loading]);
-
-  if (showLoader) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <Loader loadingStates={loadingStates} loading={showLoader} duration={itemDuration} />
-    </div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <SiteHeader />
+        <main className="flex-1">
+          <Loading className="h-full min-h-[500px]" />
+        </main>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <div className="text-red-500 text-2xl font-bold">
-        加载失败: {error}
+    return (
+      <div className="min-h-screen">
+        <SiteHeader />
+        <main className="flex-1">
+          <div className="h-full min-h-[500px] flex items-center justify-center">
+            <div className="text-red-500 text-2xl font-bold">
+              加载失败: {error}
+            </div>
+          </div>
+        </main>
       </div>
-    </div>;
+    );
   }
 
   return (
-    <div>
+    <div className="min-h-screen">
       <SiteHeader />
-      {children}
+      <main className="flex-1">
+        {children}
+      </main>
     </div>
   );
 }

@@ -12,6 +12,27 @@ export default {
   ],
   theme: {
   	extend: {
+  		keyframes: {
+  			"fade-up": {
+  				"0%": {
+  					opacity: "0",
+  					transform: "translateY(1rem)",
+  				},
+  				"100%": {
+  					opacity: "1",
+  					transform: "translateY(0)",
+  				},
+  			},
+  		},
+  		animation: {
+  			"fade-up": "fade-up 0.5s ease-out forwards",
+  			"fade-up-delay": "fade-up 0.5s ease-out 0.2s forwards",
+  		},
+      utilities: {
+        '.opacity-0': {
+          opacity: '0'
+        }
+      },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
@@ -61,7 +82,7 @@ export default {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate"), addVariablesForColors],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography"), addVariablesForColors],
 } satisfies Config;
 
 function addVariablesForColors({ addBase, theme }: any) {

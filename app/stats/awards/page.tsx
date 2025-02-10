@@ -9,6 +9,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { WorkRankList } from "@/components/work-rank-list";
 import { useVoteContext } from "../vote-context";
+import { Loading } from "@/components/loading";
 
 export default function AwardsPage() {
   const { awards, schoolData, loading } = useVoteContext();
@@ -47,7 +48,7 @@ export default function AwardsPage() {
     : [];
 
   if (loading) {
-    return <div className="p-3 md:p-8">加载中...</div>;
+    return <Loading className="h-screen" />;
   }
 
   return (
@@ -68,22 +69,26 @@ export default function AwardsPage() {
               <h2 className="text-2xl font-bold mb-6">总体排名</h2>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* 人均排名 */}
-                <WorkRankList
-                  title="人均排名"
-                  works={works}
-                  scoreType="avg"
-                  scoreGetter={(work) => work.total_avg}
-                  listId="per-person"
-                />
+                <div className="opacity-0 animate-fade-up">
+                  <WorkRankList
+                    title="人均排名"
+                    works={works}
+                    scoreType="avg"
+                    scoreGetter={(work) => work.total_avg}
+                    listId="per-person"
+                  />
+                </div>
 
                 {/* 校均排名 */}
-                <WorkRankList
-                  title="校均排名"
-                  works={works}
-                  scoreType="avg"
-                  scoreGetter={(work) => work.total_school_avg}
-                  listId="per-school"
-                />
+                <div className="opacity-0 animate-fade-up-delay">
+                  <WorkRankList
+                    title="校均排名"
+                    works={works}
+                    scoreType="avg"
+                    scoreGetter={(work) => work.total_school_avg}
+                    listId="per-school"
+                  />
+                </div>
               </div>
             </div>
 

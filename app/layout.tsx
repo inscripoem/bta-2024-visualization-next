@@ -25,10 +25,14 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-stone-900 text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-stone-900 text-white min-h-screen`}
       >
-        {/*<SiteHeader />*/}
-        {children}
+        <div className="pb-16">
+          {children}
+        </div>
+        <footer className="fixed bottom-0 left-0 right-0 py-4 text-center text-sm text-stone-400 border-t border-stone-800 bg-stone-900/80 backdrop-blur-sm">
+          <p>© {new Date().getFullYear()} 二维结系. All rights reserved.</p>
+        </footer>
       </body>
     </html>
   );
