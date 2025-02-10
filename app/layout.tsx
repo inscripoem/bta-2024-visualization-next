@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: '2024 “大二杯”结果发布',
+  title: '2024 “大二杯” 结果发布',
   description: '“大二杯”（大学生二次元）2024年度动画评选结果发布与可视化',
 };
 
