@@ -42,14 +42,6 @@ const menuItems: MenuItem[] = [
     href: "/"
   },
   {
-    title: "参与学校",
-    href: "/stats/schools"
-  },
-  {
-    title: "奖项数据",
-    href: "/stats/awards"
-  },
-  {
     title: "关于大二杯",
     href: "/info/about"
   }

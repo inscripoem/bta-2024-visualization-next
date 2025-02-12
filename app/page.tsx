@@ -6,7 +6,15 @@ import { ArrowRight} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { useRef, useEffect } from "react";
-import { motion } from "framer-motion"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogFooter,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog"
 
 import {
   Confetti,
@@ -54,27 +62,23 @@ export default function Home() {
           </div>
           
           <div className="flex flex-col items-center gap-2 md:gap-3">
-            <Button asChild size="lg" className="w-full md:w-auto">
-              <a href="/stats" className="flex items-center gap-2 justify-center">
-                查看所有数据
-                <motion.div
-                  animate={{
-                    x: ["0%", "25%", "0%"]
-                  }}
-                  transition={{
-                    duration: 1,
-                    repeat: Infinity,
-                    times: [0, 0.5, 1],
-                    ease: [
-                      [0.8, 0, 1, 1],
-                      [0, 0, 0.2, 1]
-                    ]
-                  }}
-                >
-                  <ArrowRight className="h-5 w-5" />
-                </motion.div>
-              </a>
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button size="lg" className="w-full md:w-auto">
+                  <span className="flex items-center gap-2 justify-center">
+                    查看所有数据
+                    <ArrowRight className="h-5 w-5" />
+                  </span>
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogTitle>敬请期待</AlertDialogTitle>
+                <AlertDialogDescription>数据将在后续直播中公布</AlertDialogDescription>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>关闭</AlertDialogCancel>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
 
             <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
               <Link href="/info/about" className="hover:text-foreground transition-colors">
