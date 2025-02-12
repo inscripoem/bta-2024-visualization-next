@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";  
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { useRef, useEffect } from "react";
 import { motion } from "framer-motion"
@@ -80,10 +79,6 @@ export default function Home() {
             <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
               <Link href="/info/about" className="hover:text-foreground transition-colors">
                 关于大二杯
-              </Link>
-              <Separator orientation="vertical" className="h-4" />
-              <Link href="/info/rules" className="hover:text-foreground transition-colors">
-                评选规则
               </Link>
             </div>
           </div>

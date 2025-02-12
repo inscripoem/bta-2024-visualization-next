@@ -52,10 +52,6 @@ const menuItems: MenuItem[] = [
   {
     title: "关于大二杯",
     href: "/info/about"
-  },
-  {
-    title: "评选规则",
-    href: "/info/rules"
   }
 ]
 
