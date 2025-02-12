@@ -41,10 +41,6 @@ const menuItems: MenuItem[] = [
     title: "首页",
     href: "/"
   },
-  {
-    title: "关于大二杯",
-    href: "/info/about"
-  }
 ]
 
 export function SiteHeader() {
